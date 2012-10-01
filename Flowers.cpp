@@ -39,7 +39,7 @@ int main()
 
     for(int i=0; i<n; ++i)
     {
-        	totalcost+= noflowers*cost[i];
+        	totalcost+= (noflowers+1)*cost[i];
         	kcount++;
         	if(kcount==k)
         	{
@@ -48,6 +48,6 @@ int main()
         	}
         	
     }	 
-	 cout<<totalcost;
+	 cout<<totalcost<<"\n";
     return 0;	
 }
