@@ -37,15 +37,6 @@ void inserttree(node *n, int d)
 {
    
    node *temp, *back, *l=n;
-   
-   
-   if(n == NULL)
-   {
-      n =new node;
-      n->d=d;
-      cout<<" AZAZA";
-      return ;
-   }
    temp = new  node;
    temp->d = d;
    
