@@ -31,6 +31,7 @@ class BIN_TREE
   void inorder(node *);
   void preorder(node *);
   void postorder(node *);
+  node* btdel(node *, int);
 };
 
 void inserttree(node *n, int d)
@@ -80,7 +81,7 @@ void BIN_TREE::manip()
    int o;
    do
    {
-      cout<<"\n\n1.Inorder\t2.Pre order \t3.Post Order\t4.Exit  :";
+      cout<<"\n\n1.Inorder\t2.Pre order \t3.Post Order\t4.Delete\t5.Exit  :";
       cin>>o;
       switch(o)
       {
@@ -93,14 +94,23 @@ void BIN_TREE::manip()
       case 3:cout<<"\n\n";
       postorder(root);
       break;
+      case 4:cout<<"\n\nEnter data to be deleted :";
+      cin>>d;
+      root = btdel(root,d);
+      break;
       }
-   }while(o<4);
+   }while(o<5);
 }
 
 
 
 void BIN_TREE::inorder(node *n)
 {
+   if(n==NULL)
+   {
+      cout<<"Empty tree";
+      return;
+   }
    if(n->llink!=NULL)
       inorder(n->llink);
 
@@ -113,6 +123,11 @@ void BIN_TREE::inorder(node *n)
 void BIN_TREE::preorder(node *n)
 {
 
+   if(n==NULL)
+   {
+      cout<<"Empty tree";
+      return;
+   }
    cout<<n->d<<" ";
 
    if(n->llink!=NULL)
@@ -124,11 +139,56 @@ void BIN_TREE::preorder(node *n)
 
 void BIN_TREE::postorder(node *n)
 {
+   if(n==NULL)
+   {
+      cout<<"Empty tree";
+      return;
+   }
    if(n->llink!=NULL)
       postorder(n->llink);
    if(n->rlink!=NULL)
       postorder(n->rlink);
    cout<<n->d<<" ";
+}
+
+node* BIN_TREE::btdel(node *n, int d)
+{
+   node *temp;
+   if(n==NULL)
+   {
+      cout<<"Element not found";
+   }
+   else if (d < n->d)
+   {
+      n->llink = btdel(n->llink, d);
+   }
+   else if(d > n->d)
+   {
+      n->rlink = btdel(n->rlink, d);
+   }
+   else
+   {
+      if(n->llink &&  n->rlink)
+      {
+         //find min of right subtree and repalce current node value with that min value
+         temp = n->rlink;
+         while(temp->llink != NULL)
+             temp = temp->llink;
+         n->d = temp->d;
+         //after replacing value of current node delete the min value node in right subtree
+         n->rlink = btdel(n->rlink , temp->d);
+      }
+      else
+      {
+          temp = n;
+          if(n->llink == NULL)
+            n = n->rlink;
+          else
+            n = n->llink;
+          delete(temp);
+      }
+   }
+   return n;
 }
 
 int main()
